@@ -35,7 +35,7 @@ public class ItemBOImpl implements ItemBO {
     public void updateItem(ItemDTO item) throws Exception {
 
 
-        itemDAO.update(new Item(item.getCode(),
+        itemDAO.save(new Item(item.getCode(),
                 item.getDescription(), item.getUnitPrice(), item.getQtyOnHand()));
 
     }
@@ -46,7 +46,7 @@ public class ItemBOImpl implements ItemBO {
         if (orderDetailDAO.existsByItemCode(itemCode)) {
             throw new AlreadyExistsInOrderException("Item already exists in an order, hence unable to delete");
         }
-        itemDAO.delete(itemCode);
+        itemDAO.deleteById(itemCode);
 
     }
 
@@ -74,7 +74,7 @@ public class ItemBOImpl implements ItemBO {
     @Override
     public ItemDTO findItem(String itemCode) throws Exception {
 
-        Item item = itemDAO.find(itemCode);
+        Item item = itemDAO.findById(itemCode).get();
         return new ItemDTO(item.getCode(),
                 item.getDescription(),
                 item.getQtyOnHand(),
